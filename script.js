@@ -1,4 +1,4 @@
-// Extensions data
+
 const extensionsData = [
   {
     logo: "./assets/images/logo-devlens.svg",
@@ -74,21 +74,21 @@ const extensionsData = [
   }
 ];
 
-// DOM Elements
+
 const extensionsContainer = document.getElementById('extensions-container');
 const filterButtons = document.querySelectorAll('.filter-btn');
 const themeToggle = document.querySelector('.theme-toggle');
 
-// Check for saved theme preference or use preferred color scheme
+
 const savedTheme = localStorage.getItem('theme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-// Set initial theme
+
 if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
   document.documentElement.setAttribute('data-theme', 'dark');
 }
 
-// Theme toggle functionality
+
 themeToggle.addEventListener('click', () => {
   const currentTheme = document.documentElement.getAttribute('data-theme');
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -97,7 +97,7 @@ themeToggle.addEventListener('click', () => {
   localStorage.setItem('theme', newTheme);
 });
 
-// Create extension card
+
 function createExtensionCard(extension) {
   const card = document.createElement('div');
   card.className = 'extension-card';
@@ -120,7 +120,7 @@ function createExtensionCard(extension) {
     </div>
   `;
   
-  // Add event listeners
+  
   const toggleSwitch = card.querySelector('input[type="checkbox"]');
   toggleSwitch.addEventListener('change', () => {
     extension.isActive = toggleSwitch.checked;
@@ -133,14 +133,14 @@ function createExtensionCard(extension) {
     card.classList.add('removing');
     setTimeout(() => {
       card.remove();
-      // In a real app, you would also remove from the data array
+      
     }, 300);
   });
   
   return card;
 }
 
-// Render all extensions
+
 function renderExtensions(extensions) {
   extensionsContainer.innerHTML = '';
   
@@ -149,13 +149,13 @@ function renderExtensions(extensions) {
   });
 }
 
-// Get current selected filter
+
 function getCurrentFilter() {
   const activeFilter = document.querySelector('.filter-btn.active');
   return activeFilter.dataset.filter;
 }
 
-// Filter extensions based on selected filter
+
 function filterExtensions(filter) {
   const filteredExtensions = extensionsData.filter(extension => {
     if (filter === 'all') return true;
@@ -167,20 +167,20 @@ function filterExtensions(filter) {
   renderExtensions(filteredExtensions);
 }
 
-// Add event listeners to filter buttons
+
 filterButtons.forEach(button => {
   button.addEventListener('click', () => {
-    // Update active class
+    
     filterButtons.forEach(btn => btn.classList.remove('active'));
     button.classList.add('active');
     
-    // Filter extensions
+    
     filterExtensions(button.dataset.filter);
   });
 });
 
-// Initialize with all extensions
+
 filterExtensions('all');
 
-// Optional: Add animations for card removal
+
 document.documentElement.style.setProperty('--card-remove-animation', '0.3s ease-out');
